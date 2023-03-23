@@ -79,3 +79,5 @@ target/
 */_version.py
 
 .idea/
+
+stage1_train
