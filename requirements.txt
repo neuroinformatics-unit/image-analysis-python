@@ -1,0 +1,8 @@
+jupyterlab
+tifffile
+napari[all]
+scikit-image
+numpy
+scipy
+cellfinder
+brainreg
