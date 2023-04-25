@@ -4,6 +4,7 @@ napari[all]
 scikit-image
 numpy
 scipy
-cellfinder
-brainreg
+cellfinder-napari
+brainreg-napari
 keras
+dask

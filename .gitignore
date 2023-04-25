@@ -81,3 +81,4 @@ target/
 .idea/
 
 stage1_train
+serial2p_subset
