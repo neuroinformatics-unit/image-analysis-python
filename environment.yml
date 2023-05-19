@@ -1,0 +1,15 @@
+name: image-analysis2
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - napari
+  - cellfinder-napari
+  - brainreg-napari
+  - keras
+  - dask
+  - numpy
+  - scipy
+  - tifffile
+  - jupyter
