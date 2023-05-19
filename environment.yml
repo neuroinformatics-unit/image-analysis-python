@@ -14,3 +14,5 @@ dependencies:
   - numpy
   - scipy
   - tifffile
+  - pooch
+  - tqdm
