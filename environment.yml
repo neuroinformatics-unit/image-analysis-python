@@ -1,9 +1,11 @@
-name: image-analysis2
+name: image-analysis
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.10
+  - jupyterlab
+  - nb_conda_kernels
   - napari
   - cellfinder-napari
   - brainreg-napari
@@ -12,4 +14,3 @@ dependencies:
   - numpy
   - scipy
   - tifffile
-  - jupyter
