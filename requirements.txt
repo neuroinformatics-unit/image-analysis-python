@@ -8,3 +8,5 @@ cellfinder-napari
 brainreg-napari
 keras
 dask
+pooch
+tqdm
