@@ -1,0 +1,717 @@
+<!doctype html>
+
+<!-- shortcuts
+Press B or . on your keyboard to pause the presentation.
+O for overview mode
+
+To view:
+https://raacampbell.github.io/steering01/
+	-->
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Setting Up Python For Interactive Analysis</title>
+
+		<meta name="description" content="Interative Analysis in Python">
+		<meta name="author" content="Rob Campbell">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="local_style.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+
+
+	</head>
+
+	<body>
+
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<!-- Title -->
+				<section>
+					<img src="./assets/SWC_Logo_Black.png" alt="swc logo" style="height: 180px; margin: 0 auto 4rem auto; background: transparent; /">
+
+					<h3>Working Interactively With Python</h3>
+					<p>
+						<small>Rob Campbell <br /> 5th June 2023</small>
+					</p>
+				</section>
+
+				<!-- formal dev cycle -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>The Development Cycle</h2>
+					</div>
+					<div class="content small">
+						<p>
+							Practically speaking, what is the code development cycle? If you are developing an application or tool that you intend to reuse or share then it makes sense to:
+						</p>
+						<ul>
+							<li> Plan this from the start what the layout will be and begin working on lower level stuff first.</li>
+							<li> Create a pip-installable package with tests.</li>
+							<li> Start writing the basic modules.</li>
+							<li> Write tests for these basic modules.</li>
+							<li> pip install -e . your package [INLINE]</li>
+							<li> Do test-based development. </li>
+						</ul>
+
+						TODO: `pip install -e .` you can edit and save and re-run like MATLAB. Does this work without auto-reload?
+					</div>
+				</section>
+
+				<!-- iterative/interactive dev cycle: what is it? -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>The Development Cycle</h2>
+					</div>
+					<div class="content small">
+						<p>
+							This "formal" process seems excessive if, for example, you just want to do some exploratory analysis. The process for doing this sort of thing in MATLAB works very well. The process is:
+						</p>
+						<ul>
+							<li> Start typing text in script (shares base workspace scope) or function file (local scope).</li>
+							<li> Run it at the command line and see if it works. It may spawn figures in new windows as needed. </li>
+							<li> Iterate: fixing bugs or adding features and re-run.</li>
+							<li> As appropriate you might create additional files or functions in the MATLAB path. </li>
+						</ul>
+
+						<p>
+							In MATLAB doing this is very easy because scripts and functions are always run using the latest saved version. Even running instances of classes modify their behavior if the source code is changed. Adding functions to the MATLAB path makes them available any time.
+						</p>
+					</div>
+				</section>
+
+				<!-- iterative/interactive dev cycle: why it is harder than it should be -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>The Development Cycle</h2>
+					</div>
+					<div class="content small">
+						<p>
+							Doing things of this sort in Python is surprisingly non-obvious and some of them may be impossible.
+							The obvious thing is to try iPthYou will run into the following issues:
+						</p>
+						<ul>
+							<li> It is not obvious how to run a script. CHECK! You need to know how to do it in iPython or you need to use Spyder.</li>
+							<li> If you make a module and import it in iPython but then alter it, the alterations are not available. If you don't know better you will quit and restart iPython. </li>
+							<li> Figures do not appear until <code class="inline_code">plt.show()</code> is called and when that is called the CLI is blocked.</li>
+							<li> It is not obvious where to put your "quick & dirty" modules. Is there an equivalent of the MATLAB path?</li>
+
+						</ul>
+
+					</div>
+				</section>
+
+				<!-- Jupyter notebooks -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Are Jupyter notebooks the answer?</h2>
+					</div>
+					<div class="content small">
+						At first glance Jupyter notebooks seem like a good option. The allow you to see your workflow. Things can be re-run easily by pressing the run button. Results are saved.
+						The issue, however, is that for any substantial analysis you will need to write potentially large numbers of functions (or even multiple packages) and this isn't part of the Jupyter workflow. You will learn no software dev skills if you try sticking with Jupyter. Jupyter is good if you want to summarize results at a very high level at the end, use it a notebook for progress reports, etc. It does not answer the issues above.
+					</div>
+				</section>
+
+				<!-- Spyder -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Why about Spyder?</h2>
+					</div>
+					<div class="content small">
+						<p>
+						The most straightforward option is to try Spyder. This solves most of the issues above and also gives you things like a variable explorer, a debugger, and a linter. There is a lot to be said for it and you should definitely check it out and look at some tutorials. However, Spyder may not be the best solution: you may not always be able to use it (e.g. logged in remotely via SSH) or you may not like the interface. Perhaps you prefer a different text editor or IDE? (We won't discuss pyCharm here, as it's quite complicated and a lot of the analysis features are not free, but you can learn more about it <a href="https://www.youtube.com/watch?v=46RjXawJQgg&ab_channel=JetBrains">here</a>.
+						</p>
+
+						<p>
+						A lot of what Spyder does seems like black magic at first. How are modules reloading automatically, for instance? The solution we look at here is how to tweak iPython manually so it provides the key features you need to do effective interactive analysis.
+						</p>
+					</div>
+				</section>
+
+
+				<!-- Separator slide -->
+				<section>
+						<h1>Using iPython as a MATLAB-like working environment</h1>
+				</section>
+
+				<!-- magics of iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>The Magic of iPython</h2>
+					</div>
+					<div class="content small">
+						<p>iPython has a whole load of <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magic commands</a> that start with a <code class="inline_code">%</code> and help it behave as a nice interactive editor. Let's look a few. Start iPython and try the commands for checking the current working directory and changing it.
+						</p>
+
+						<pre data-id="code-animation"><code class="python" data-trim>
+							In [1]: %pwd
+							Out[1]: '/Users/bob/Desktop'
+
+							In [2]: %cd ../
+							/Users/bob/
+						</code></pre>
+
+					</div>
+				</section>
+
+
+				<!-- Running scripts in iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Running scripts in iPython</h2>
+					</div>
+					<div class="content small">
+						<p>
+						The most basic thing you need to do is run scripts in iPython. A "script" is plain text <code class="inline_code">.py</code> file that contains a bunch of commands that you want to run in series. A script is not a module. Fire up your favourite text editor and make a script somewhere (the Desktop is fine). The contents of my script (<code class="inline_code">bob.py</code>) looks like this:
+					</p>
+						<pre><code class="python" data-trim data-line-numbers>
+							print("I am running the script")
+							t = 10
+							t2 = t**2
+						</code></pre>
+
+						<p>You can run the script using either of the following approaches.</p>
+
+						<pre data-id="code-animation"><code class="python" data-trim data-line-numbers>
+							In [1]: %cd /Users/bob/Desktop
+							Out[1]: %run bob
+							I am running the script
+						</code></pre>
+
+						<p>or</p>
+
+						<pre data-id="code-animation"><code class="python" data-trim data-line-numbers>
+							Out[1]: %run  /Users/bob/Desktop/bob
+							I am running the script
+						</code></pre>
+					</div>
+				</section>
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Running scripts in iPython</h2>
+					</div>
+					<div class="content small">
+						<p>
+						The variables (<code class="inline_code">t</code> and <code class="inline_code">t2</code>) created by the script are placed in the base workspace of iPython and we can see them as follows
+					</p>
+						<pre><code class="none" data-trim>
+							In [2]: %whos
+							Variable   Type    Data/Info
+							----------------------------
+							t          int     10
+							t2         int     100
+						</code></pre>
+
+						<p>If you edit your script and re-run it as above then the updated version will run. Let's try the same thing with a simple module.</p>
+					</div>
+				</section>
+
+
+				<!-- Writing modules in iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Developing modules interactively with iPython</h2>
+					</div>
+					<div class="content small">
+						<p>Let's modify the <code class="inline_code">bob.py</code> file so it contains a couple of functions:
+						</p>
+
+						<pre><code class="python" data-trim data-line-numbers>
+						def intro():
+						    print("I am running the script")
+						    t = myVar()
+						    t2 = t**2
+						    print(t2)
+
+						def myVar():
+						    return 10
+						</code></pre>
+						<p>In iPython ensure your working directory is the same as that of the module and try importing and running it.</p>
+
+						<pre><code class="python" data-trim >
+							In [1]: %pwd
+							Out[1]: '/Users/rob/Desktop'
+							In [2]: import bob
+							In [3]: bob.intro()
+							I am running the script
+							100
+						</code></pre>
+					</div>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Developing modules interactively with iPython</h2>
+					</div>
+					<div class="content small">
+						<p> But! If you edit <code class="inline_code">bob.py</code> so that <code class="inline_code">myVar</code> so it returns a different number, this will not be implemented if your re-run <code class="inline_code">bob.intro()</code> and even if you run <code class="inline_code">import bob</code> again, that will not help. The solution is to enable module auto-reloading. Close iPython and restart it then do the following.
+						</p>
+
+						<pre><code class="python" data-trim data-line-numbers>
+							In [1]: %load_ext autoreload
+							In [2]: %autoreload 2
+							In [3]: import bob
+							In [4]: bob.intro()
+						</code></pre>
+						<p>Try editing the return value of <code class="inline_code">myVar</code> or make any other changes you fancy. When you run <code class="inline_code">bob.intro()</code> the changes take effect. This is great! It also works with other modules, so if you have imported multiple things that depend on each other all are reloaded each time. </p>
+
+						<p>In the case above we are importing <code class="inline_code">bob</code> because it is in the current working directory. What if we want to import modules in other directories? Of course in many (most?) cases we will be importing things that have been installed using <code class="inline_code">pip</code> (perhaps with <code class="inline_code">pip -e</code>) but this is not always appropriate. When you are slowly developing analysis pipelines you might not want to immediately create pip-installable packages. What to do in this case? Python looks in the list <code class="inline_code">sys.path</code> and imports modules it finds there. So let's say we have our <code class="inline_code">bob.py</code> on the Desktop but we have a different working directory and we want to import it. This is how we can do that:</p>
+
+
+						<pre><code class="python" data-trim data-line-numbers>
+							In [1]: %pwd
+							Out[1]: '/Users/bob/Dropbox/work/development'
+							In [2]: sys.path.append('/Users/bob/Desktop')
+							In [3]: import bob
+							In [4]: bob.intro()
+							I am running the script
+							100
+						</code></pre>
+
+						<p>
+						The above works because <code class="inline_code">sys.path</code> is just a list that we can add to as we wish. You can build up a list of useful paths and add them each time iPython opens using a startup file (see below).
+						<b>Note</b>: as projects mature and become more long term it makes sense to transition them to more organised packages that can be installed using <code class="inline_code">pip</code> and have systematic testing, etc.
+					</p>
+					</div>
+				</section>
+
+
+				<!-- Jupyter notebooks linked to iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>But I liked Jupyter notebooks!</h2>
+					</div>
+					<div class="content small">
+						<p>You can have both!
+						Start Jupyter and do some stuff then at the bash CLI:</p>
+
+						<pre><code class="python" data-trim data-line-numbers>
+						 jupyter console --existing
+						</code></pre>
+
+						<p>
+						The <code class="inline_code">%connect_info</code> typed into Jupyter Notebook will help you connect to it if there are multiple running notebooks.
+						</p>
+					</div>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>jupyter qtconsole</h2>
+					</div>
+					<div class="content small">
+						<p>
+						You can have both! Start Jupyter and do some stuff then at the bash CLI:
+						</p>
+
+						<pre><code class="python" data-trim>
+						 pip install pyqt5-tools
+						</code></pre>
+
+					<p>
+						Then
+					</p>
+
+					<pre><code class="python" data-trim>
+						 jupyter console
+					</code></pre>
+
+					<p>
+						The <code class="inline_code">%qtconsole</code> magic spawns a new terminal window with the same kernel.
+					</p>
+					</div>
+				</section>
+
+
+				<!-- Customizing iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Customizing iPython</h2>
+					</div>
+					<div class="content small">
+						<p>
+						This works well so let's make the change permanent.
+						We don't want to have to type in this autoreload stuff every time we start iPython.
+						We will edit the <code class="inline_code">python_config.py</code> file.
+						To locate the file type <code class="inline_code">ipython locate profile default</code> in the system (not iPython) prompt.
+						On Unix-like systems it should be at  <code class="inline_code">~/.ipython/profile_default/</code> and the iPython config file should be at <code>~/.ipython/profile_default/ipython_config.py</code>
+						 If it is missing you can make it with <code class="inline_code">ipython profile create</code>
+						</p>
+					</div>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Customizing iPython</h2>
+					</div>
+					<div class="content small">
+						<p>
+						Open this file in your favourite editor. Find the following two settings, edit and uncomment the lines so that the read:
+						</p>
+
+						<pre><code class="python" data-trim>
+							c.InteractiveShellApp.extensions = ['autoreload']
+							c.InteractiveShellApp.exec_lines = ['%autoreload 2']
+						</code></pre>
+
+						<p>
+						Each time iPython starts it will have module reloading enabled.
+						If you wish to block reload of large modules that might take time you can do it as follows
+						</p>
+
+
+						<pre><code class="python" data-trim>
+							c.InteractiveShellApp.exec_lines = ['%autoreload 2','aimport - numpy scipy']
+						</code></pre>
+
+						<p>
+							You can verify that worked after starting iPython:
+						</p>
+
+						<pre><code class="python" data-trim>
+							In [1]: %aimport
+							Modules to reload:
+							all-except-skipped
+
+							Modules to skip:
+							numpy scipy
+						</code></pre>
+					</div>
+				</section>
+
+
+				<!-- Getting matplotlib to play nicely with iPython -->
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Making matplotlib usable in iPython</h2>
+					</div>
+					<div class="content small">
+						<p>
+							The first problem you will have when making plots is that they don't appear unless you run <code class="inline_code">plt.show()</code> and then their presence blocks the command line. e.g.
+						</p>
+
+						<pre><code class="python" data-trim>
+							In [1]: y = np.random.rand(1,100)[0]
+							In [2]: plt.plot(y)
+							Out[2]: [<matplotlib.lines.Line2D at 0x11fe5cd90>]
+						</code></pre>
+
+						<p>Where is the plot</p>
+
+						<pre><code class="python" data-trim>
+							In [12]: plt.show()
+						</code></pre>
+
+						<p>
+						Ah, there it is!
+						But now I can't type anything until I close it...
+						</p>
+
+						<p>
+						To fix this turn on interactive plotting: <code class="inline_code">plt.ion()</code>.
+						(you can disable it with <code class="inline_code">plt.ioff()</code>).
+						You can place  <code class="inline_code">plt.ion()</code> in your startup file so it's always there by default.
+						</p>
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Working with multiple figure windows</h2>
+					</div>
+					<div class="content small">
+						<p>
+							The basic way of making a figure is this:
+						</p>
+
+						<pre><code class="python" data-trim>
+						plt.plot(xData, yData, '-k')
+						plt.grid(True)
+						</code></pre>
+
+						<p>
+						But if we want to make multiple figures something like this is needed:
+						</p>
+
+						<pre><code class="python" data-trim>
+						# Let's make two figures:
+
+						# The first...
+						fig1 = plt.figure()
+						ax1 = fig1.add_subplot(1,1,1)
+						ax1.plot(y)
+						ax1.grid()
+
+						# ...and the second
+						fig2 = plt.figure()
+						ax2 = fig2.add_subplot(1,1,1)
+						ax2.plot(y)
+						ax2.grid()
+						</code></pre>
+
+						<p>
+						You can simplify the figure creation into one line as follows:
+						</p>
+
+						<pre><code class="python" data-trim>
+							fig1, ax1 = plt.subplots()
+							ax1.plot(y)
+						</code></pre>
+					</div>
+				</section>
+
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Avoiding figures everywhere</h2>
+					</div>
+
+					<div class="content">
+						<p>
+							When working interactively with multiple figures it easy to end up with too many figure windows everywhere or to over-write an important existing figure with new data.
+							The ability to label figures comes to the rescue. For example:
+						</p>
+
+						<pre><code class="python" data-trim>
+						# Make two figures with different labels and don't save their instances as a variable
+						plt.figure('my_label_01')
+						plt.figure('my_label_02')
+
+						# We can generate a list of available labels:
+						plt.get_figlabels()
+						 ['my_label_01', 'my_label_02']
+
+						# Add an axis and random data data to the first figure
+						fig = plt.figure('my_label_01') # Does not create a new figure but returns the original window
+						ax = fig.add_subplot(1,1,1)
+						</code></pre>
+					</div>
+				</section>
+
+
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Label your figures</h2>
+					</div>
+					<div class="content">
+						<p>
+							It makes sense to always assign a label to a figure whenever you make one.
+							This way when you iterate in your development process you are not generating new figure windows each time or overwriting existing figures.
+							Run `fig1.clf()` to clear existing data in the figure window.
+							Labels are managed as follows:
+						</p>
+
+						<pre><code class="python" data-trim>
+							# Labels in existing plots
+							In [30]: fig.get_label()
+							Out[30]: 'my_label_01'
+							In [31]: fig.set_label('newlabel')
+						</code></pre>
+
+						<p>
+							NOTE: This likely works better
+						</p>
+
+						<pre><code class="python" data-trim>
+							fig = plt.figure('bboxes')
+							fig.clf()
+							axs = fig.subplots(1,2)
+						</code></pre>
+
+					</div>
+				</section>
+
+
+
+				<!-- Separator slide -->
+				<section>
+						<h1>Other odds and ends</h1>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>The iPython startup file</h2>
+					</div>
+					<div class="content">
+						<p>
+							You can run arbitrary Python code each time iPython starts up.
+							Create a <code class="inline_code">.py</code> file in <code class="inline_code">~/.ipython/profile_default/startup</code> and edit it.
+							The following <code class="inline_code">~/.ipython/profile_default/startup/00_mystartup.py</code>, for instance, imports a bunch of commonly used tools.
+
+						</p>
+						<pre><code class="python" data-line-numbers data-trim>
+							print('Running startup file')
+							# Do common imports
+							import os
+							import sys
+							import numpy as np
+							import matplotlib.pyplot as plt
+						</code></pre>
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Using your own editor</h2>
+					</div>
+					<div class="content">
+						<p>
+							The <code class="inline_code">%edit</code> magic is used to open files in an editor. You can choose your editor by modifying the config file. The following change sets it to use SublimeText
+						</p>
+						<pre data-id="code-animation"><code class="python" data-trim>
+							c.TerminalInteractiveShell.editor = 'subl'
+						</code></pre>
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Garbage collection</h2>
+					</div>
+					<div class="content">
+						<p>
+							You can delete individual variables at the iPython prompt with <code class="inline_code">del</code> but this will not give back RAM to the OS.
+							For this you have to garbage collect.
+						</p>
+						<pre data-id="code-animation"><code class="python" data-trim>
+							In [244]: import gc
+
+							In [245]: gc.collect()
+							Out[245]: 47545
+
+						</code></pre>
+					</div>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Get rid of the extra space between lines</h2>
+					</div>
+					<div class="content">
+						<p>If you don't like the newline between prompt lines you can get rid of it as follows:</p>
+					<pre><code class="python" data-trim>
+					from IPython.terminal.prompts import ClassicPrompts
+					ip = get_ipython()
+					ip.separate_in = '' # No spaces between lines
+					 </code></pre>
+
+					 <p>
+					 	Of course that can go into your iPython startup script.
+					</p>
+					</div>
+				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Running system commands from within iPython</h2>
+					</div>
+					<div class="content">
+						<p>e.g.</p>
+					<pre><code data-trim>
+					 	!find . -name '*.py'
+					 </code></pre>
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Getting help</h2>
+					</div>
+					<div class="content">
+						<p>e.g.</p>
+						<pre><code class="python" data-trim>
+							import matplotlib.pyplot as plt
+   				 		help(plt.plot)
+					 	</code></pre>
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Quick Benchmarking</h2>
+					</div>
+					<div class="content">
+						<p>
+						The following magic iPython commands can be used for benchmarking.
+						</p>
+					<pre><code class="python " data-trim>
+						%time
+						%timeit
+						%run -p my_script.py
+					</code></pre>
+
+					<pre><code class="python fragment" data-trim data-line-numbers="0|1|2,3|4|5,6">
+					In [1]: %time np.random.rand(1,100);
+					CPU times: user 22 µs, sys: 2 µs, total: 24 µs
+					Wall time: 25.7 µs
+					In [2]: %timeit np.random.rand(1,100);
+					648 ns ± 7.47 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+					In [14]:
+					</code></pre>
+					</div>
+				</section>
+
+			</div>
+
+		</div>
+
+
+		<!--- LOAD JS -->
+		<script src="dist/reveal.js"></script>
+
+		<!-- CUSTOMIZATIONS -->
+		<script>
+		Reveal.initialize({
+		  // Transition style
+		  	transition: 'none', // none/fade/slide/convex/concave/zoom
+		})
+		</script>
+
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+
+	</body>
+</html>
