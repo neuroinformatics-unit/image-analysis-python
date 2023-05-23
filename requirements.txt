@@ -10,3 +10,5 @@ keras
 dask
 pooch
 tqdm
+itk-elastix
+bg-atlasapi
