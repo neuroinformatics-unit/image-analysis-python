@@ -8,7 +8,7 @@ info/cellfinder/using-conda) (or anaconda) from [here](https://docs.conda.io/en/
 
 Then run the following commands in a terminal:
 ```bash
-conda env create --name image-analysis python=3.10
+conda env create --name image-analysis python=3.10 nb_conda_kernels
 conda activate image-analysis
 pip install -r requirements.txt
 git clone https://github.com/neuroinformatics-unit/image-analysis-python
