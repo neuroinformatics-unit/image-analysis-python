@@ -447,7 +447,7 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content small">
 						<p>
-							The first problem you will have when making plots is that they don't appear unless you run <code class="inline_code">plt.show()</code> and then their presence blocks the command line. e.g.
+							Let's make some data and try plotting it.
 						</p>
 
 						<pre><code class="python" data-trim>
@@ -456,21 +456,21 @@ https://raacampbell.github.io/steering01/
 							Out[2]: [<matplotlib.lines.Line2D at 0x11fe5cd90>]
 						</code></pre>
 
-						<p>Where is the plot</p>
+						<p>No plot appears. Where is it?</p>
 
-						<pre><code class="python" data-trim>
-							In [12]: plt.show()
-						</code></pre>
+						<div class="fragment">
+							<p>Ah! Typing <code class="inline_code">plt.show()</code> causes it to appear but then prompt is blocked.
+							</p>
+							<pre><code class="python" data-trim>
+							In [15]: plt.plot(y)
+							Out[15]: [<matplotlib.lines.Line2D at 0x7efc349f9130>]
+							In [16]: plt.show()
+							</code></pre>
+						</div>
 
-						<p>
-						Ah, there it is!
-						But now I can't type anything until I close it...
-						</p>
-
-						<p>
+						<p class="fragment">
 						To fix this turn on interactive plotting: <code class="inline_code">plt.ion()</code>.
-						(you can disable it with <code class="inline_code">plt.ioff()</code>).
-						You can place  <code class="inline_code">plt.ion()</code> in your startup file so it's always there by default.
+						This can be disabled it with <code class="inline_code">plt.ioff()</code>.
 						</p>
 					</div>
 				</section>
@@ -482,42 +482,42 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content small">
 						<p>
-							The basic way of making a figure is this:
+						This sort of thing would make a basic figure:
 						</p>
 
 						<pre><code class="python" data-trim>
-						plt.plot(xData, yData, '-k')
+						x = np.arange(0,100,1)
+						y = x*2 + np.random.rand(len(x))*10
+						plt.plot(x, y, 'xk')
 						plt.grid(True)
 						</code></pre>
 
+						<div class="fragment">
 						<p>
-						But if we want to make multiple figures something like this is needed:
+						But say you want to leave this figure open and plot a new figure:
 						</p>
-
 						<pre><code class="python" data-trim>
-						# Let's make two figures:
-
-						# The first...
-						fig1 = plt.figure()
-						ax1 = fig1.add_subplot(1,1,1)
-						ax1.plot(y)
-						ax1.grid()
-
-						# ...and the second
-						fig2 = plt.figure()
-						ax2 = fig2.add_subplot(1,1,1)
-						ax2.plot(y)
-						ax2.grid()
+						y2 = x*3 + np.random.rand(len(x))*4
+						plt.plot(x,y2,'or')
 						</code></pre>
-
 						<p>
-						You can simplify the figure creation into one line as follows:
+							That plot command will just overlay data over the first plot.
 						</p>
+						</div>
 
-						<pre><code class="python" data-trim>
-							fig1, ax1 = plt.subplots()
-							ax1.plot(y)
-						</code></pre>
+						<div class="fragment">
+							<p>
+							To avoid that you must first make a new figure window with
+							<span class="inline_code">plt.figure()</span>:
+							</p>
+							<pre><code class="python" data-trim>
+							y2 = x*3 + np.random.rand(len(x))*4
+							plt.figure()
+							plt.plot(x,y2,'or')
+							</code></pre>
+						</div>
+
+
 					</div>
 				</section>
 
@@ -528,40 +528,90 @@ https://raacampbell.github.io/steering01/
 						<h2>Avoiding figures everywhere</h2>
 					</div>
 
-					<div class="content">
+					<div class="content small">
 						<p>
 							When working interactively with multiple figures it easy to end up with too many figure windows everywhere or to over-write an important existing figure with new data.
 							The ability to label figures comes to the rescue. For example:
 						</p>
 
 						<pre><code class="python" data-trim>
-						# Make two figures with different labels and don't save their instances as a variable
-						plt.figure('my_label_01')
-						plt.figure('my_label_02')
+						x = np.arange(0,100,1)
+						y1 = x*2 + np.random.rand(len(x))*10
+						y2 = x*3 + np.random.rand(len(x))*4
 
+						#Plot y1 and y2 in separate, labelled figures
+						plt.figure('my_label_01')
+						plt.plot(x,y1)
+
+						plt.figure('my_label_02')
+						plt.plot(x,y2)
+						</code></pre>
+
+						<pre><code class="python" data-trim>
 						# We can generate a list of available labels:
 						plt.get_figlabels()
 						 ['my_label_01', 'my_label_02']
-
-						# Add an axis and random data data to the first figure
-						fig = plt.figure('my_label_01') # Does not create a new figure but returns the original window
-						ax = fig.add_subplot(1,1,1)
 						</code></pre>
+
+						<p>
+						Add data to the first figure window
+						</p>
+						<pre><code class="python" data-trim>
+						plt.figure('my_label_01'); # The first figure window has focus
+						plt.plot(x,y1,'or') # Overlay red markers to existing line
+						</code></pre>
+
+
+					</div>
+				</section>
+
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Avoiding figures everywhere: reuse</h2>
+					</div>
+
+					<div class="content small">
+						<p>
+							By using labels and <span class="inline_code">plt.clf()</span>
+							in your scripts, you will avoid generating huge numbers of figures
+							each time and figures will remain open as you edit and re-run your code.
+						</p>
+
+						<pre><code class="python" data-trim data-line-numbers>
+						import numpy as np
+						import matplotlib.pyplot as plt
+
+						# Generate some random data
+						x = np.arange(0,100,1)
+						y1 = x*2 + np.random.rand(len(x))*10
+						y2 = x*3 + np.random.rand(len(x))*4
+
+
+						# Plot y1 data
+						plt.figure('my_label_01')
+						plt.clf()
+						plt.plot(x,y1)
+
+						# Plot y2 data
+						plt.figure('my_label_02')
+						plt.clf()
+						plt.plot(x,y2)
+
+						</code></pre>
+
 					</div>
 				</section>
 
 
 
-
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>Label your figures</h2>
+						<h2>Changing labels</h2>
 					</div>
 					<div class="content">
 						<p>
 							It makes sense to always assign a label to a figure whenever you make one.
-							This way when you iterate in your development process you are not generating new figure windows each time or overwriting existing figures.
-							Run `fig1.clf()` to clear existing data in the figure window.
 							Labels are managed as follows:
 						</p>
 
@@ -570,16 +620,6 @@ https://raacampbell.github.io/steering01/
 							In [30]: fig.get_label()
 							Out[30]: 'my_label_01'
 							In [31]: fig.set_label('newlabel')
-						</code></pre>
-
-						<p>
-							NOTE: This likely works better
-						</p>
-
-						<pre><code class="python" data-trim>
-							fig = plt.figure('bboxes')
-							fig.clf()
-							axs = fig.subplots(1,2)
 						</code></pre>
 
 					</div>
@@ -599,7 +639,8 @@ https://raacampbell.github.io/steering01/
 						<h2>Developing modules interactively with iPython</h2>
 					</div>
 					<div class="content small">
-						<p>Let's modify the <code class="inline_code">bob.py</code> file so it contains a couple of functions:
+						<p>Let's modify our <code class="inline_code">bob.py</code> file
+						from earlier so it contains a couple of functions:
 						</p>
 
 						<pre><code class="python" data-trim data-line-numbers>
@@ -657,6 +698,8 @@ https://raacampbell.github.io/steering01/
 						<p>
 						The above works because <code class="inline_code">sys.path</code> is just a list that we can add to as we wish. You can build up a list of useful paths and add them each time iPython opens using a startup file (see below).
 						<b>Note</b>: as projects mature and become more long term it makes sense to transition them to more organised packages that can be installed using <code class="inline_code">pip</code> and have systematic testing, etc.
+
+						Point out that this works with pip -e . and link back to the "correct" dev cycle.
 					</p>
 
 					</div>
