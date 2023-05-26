@@ -48,25 +48,43 @@ https://raacampbell.github.io/steering01/
 
 					<h3>Working Interactively With Python</h3>
 					<p>
-						<small>Rob Campbell <br /> 5th June 2023</small>
+						<!--
+						<small>Rob Campbell</small>
+						-->
 					</p>
 				</section>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>How code is developed</h2>
+					</div>
+					<div class="content small">
+							<p>Three main ways of writing code:
+							</p>
+							<ol>
+								<li>Formal creation of a pre-planned package that you will re-use or share. Could be test-driven and/or collaborative.</li>
+								<li>A "notebook" that mixes code with other elements such as text, equations, or figures. Best used for providing examples, documentation, teaching, or as a form of note taking. It's a poor development platform.</li>
+								<li>Exploratory interactive analysis. Trying stuff out with throwaway scripts. These might morph into (2) or (1) above.</li>
+							</ol>
+					</div>
+
+				</section>
+
 
 				<!-- formal dev cycle -->
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>The Development Cycle</h2>
+						<h2>The Formal Development Cycle</h2>
 					</div>
 					<div class="content small">
 						<p>
-							Practically speaking, what is the code development cycle? If you are developing an application or tool that you intend to reuse or share then it makes sense to:
+							If you are developing an application or tool that you intend to reuse or share then you would something like:
 						</p>
 						<ul>
-							<li> Plan this from the start what the layout will be and begin working on lower level stuff first.</li>
-							<li> Create a pip-installable package with tests.</li>
-							<li> Start writing the basic modules.</li>
-							<li> Write tests for these basic modules.</li>
-							<li> <code class="inline_code">pip install -e .</code> your package</li>
+							<li> Plan ahead how your project will be structured before you start writing code.</li>
+							<li> Create a pip-installable package framework in which to work.</li>
+							<li> Lay out everything in neat modules.</li>
+							<li> Write tests and document.</li>
 							<li> Consider test-based development or at least writing tests. </li>
 						</ul>
 
@@ -81,7 +99,7 @@ https://raacampbell.github.io/steering01/
 				<!-- iterative/interactive dev cycle: what is it? -->
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>The Development Cycle</h2>
+						<h2>Exploratory Development</h2>
 					</div>
 					<div class="content small">
 						<p>
@@ -96,12 +114,16 @@ https://raacampbell.github.io/steering01/
 							<li> As the code grows you might start working across multiple functions in multiple source files.</li>
 						</ul>
 
+						<p class="fragment">
+						Probably this is what most scientists are doing most of the time.
+						</p>
+
 					</div>
 				</section>
 
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>The Development Cycle</h2>
+						<h2>Exploratory Development</h2>
 						<h2 style="color:red">CAVEAT</h2>
 					</div>
 
@@ -110,7 +132,7 @@ https://raacampbell.github.io/steering01/
 						<ul>
 							<li>Do not get stuck in the "throwaway scripts" workflow we will discuss!</li>
 							<li>It has its uses but do not abuse it.</li>
-							<li>Make packages and organise your code when necessary.</li>
+							<li>Transition to packages and organize when necessary.</li>
 						</li>
 
 					</div>
@@ -119,7 +141,7 @@ https://raacampbell.github.io/steering01/
 
 				<section class="full_screen_slide">
 					<div style="" class="title">
-						<h2>The Development Cycle: Spyder</h2>
+						<h2>Exploratory Development: Spyder</h2>
 					</div>
 
 					<div style="" class="content">
@@ -129,7 +151,7 @@ https://raacampbell.github.io/steering01/
 
 				<section class="full_screen_slide">
 					<div style="" class="title">
-						<h2>The Development Cycle: Spyder</h2>
+						<h2>Exploratory Development: Spyder</h2>
 					</div>
 
 					<div style="" class="content">
@@ -139,7 +161,7 @@ https://raacampbell.github.io/steering01/
 
 				<section class="full_screen_slide">
 					<div style="" class="title">
-						<h2>The Development Cycle: PyCharm</h2>
+						<h2>Exploratory Development: PyCharm</h2>
 					</div>
 
 					<div style="" class="content">
@@ -155,14 +177,16 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content small">
 						<ul>
-						<li>Maybe you don't like the interface</li>
-						<li>Maybe you want a different text editor</li>
-						<li>Maybe you want a different workflow</li>
-						<li>Maybe you work a lot over SSH terminals with no GUI</li>
+						<li>Maybe you don't like the interface. Perhaps it's over-complicated for you.</li>
+						<li>Maybe you want to standalone text editor. (e.g.
+							<a href="https://www.sublimetext.com/">Sublime Text</a> or <a href="https://macromates.com/">TextMate</a>)</li>
+						<li>Maybe you work a lot over SSH terminals with no GUI.</li>
 						</ul>
 
 						<p class="fragment">
-						Spyder and PyCharm seem to basically be a fancy editor with some docked windows attached to an iPython console. So why can't we just use iPython and a text editor?
+						Spyder and PyCharm seem to basically be a fancy editor with some docked windows attached to an iPython console.
+						They offer advantages for software development but for interactive analysis perhaps less so.
+						So why can't we just use iPython and a text editor?
 						</p>
 
 					</div>
@@ -171,7 +195,7 @@ https://raacampbell.github.io/steering01/
 
 				<section class="full_screen_slide">
 					<div style="" class="title">
-						<h2>The Development Cycle: just use iPython</h2>
+						<h2>Exploratory Development: just use iPython</h2>
 					</div>
 
 					<div style="" class="content">
@@ -187,10 +211,11 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content small">
 						<p>
+							[REMOVE THIS SLIDE?]
 							You will quickly run into issues if you try to use iPython:
 						</p>
 						<ul>
-							<li>It is not obvious how to run a script. There is "Run" button like in Spyder.</li>
+							<li>It is not obvious how to run a script. (No "Run" button like in Spyder.)</li>
 							<li>If you make a module and import it in iPython but then alter it, the alterations are not available. If you don't know better you will quit and restart iPython. </li>
 							<li> It is not obvious where to put your "quick & dirty" modules. Do they always have to be in the current directory?</li>
 							<li> Figures do not appear until <code class="inline_code">plt.show()</code> is called and when that is called the CLI is blocked.</li>
@@ -221,16 +246,30 @@ https://raacampbell.github.io/steering01/
 						<h2>The Magic of iPython</h2>
 					</div>
 					<div class="content small">
-						<p>iPython has a whole load of <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magic commands</a> that start with a <code class="inline_code">%</code> and help it behave as a nice interactive editor. Let's look a few. Start iPython and try the commands for checking the current working directory and changing it.
+
+
+						<p>
+						At the iPython prompt you can work interactively with results appearing line by line.</p>
+						<pre><code class="python-repl" data-trim>
+						>>> import numpy as np
+
+						>>> np.sin(3.1412/2)
+						0.9999999807278949
+						</code></pre>
+
+
+						<div class="fragment">
+						<p>In addition, iPython has a whole load of <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magic commands</a> that start with a <code class="inline_code">%</code>. Let's look a few...
 						</p>
 
-						<pre data-id="magics-animation"><code class="python" data-trim>
-							In [1]: %pwd
-							Out[1]: '/Users/bob/Desktop'
+						<pre data-id="magics-animation"><code class="python-repl" data-trim>
+							>>> %pwd
+							'/Users/bob/Desktop'
 
 							In [2]: %cd ../
 							/Users/bob/
 						</code></pre>
+						</div>
 
 					</div>
 				</section>
@@ -241,10 +280,9 @@ https://raacampbell.github.io/steering01/
 						<h2>The Magic of iPython</h2>
 					</div>
 					<div class="content small">
-						<p>iPython has a whole load of <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magic commands</a> that start with a <code class="inline_code">%</code> and help it behave as a nice interactive editor. Let's look a few. Start iPython and try the commands for checking the current working directory and changing it.
-						</p>
+						<p>The <code class="inline_code">%</code> prefix is optional.</p>
 
-						<pre data-id="magics-animation"><code class="python" data-trim data-line-numbers="1-6|7-13|15-21" >
+						<pre data-id="magics-animation"><code class="python-repl" data-trim data-line-numbers="1-6|7-13|15-21" >
 							In [1]: %pwd
 							Out[1]: '/Users/bob/Desktop'
 
@@ -279,7 +317,7 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content">
 						<p>e.g.</p>
-					<pre><code data-trim data-line-numbers="1-2|3-7|9-19">
+					<pre><code class="python-repl" data-trim data-line-numbers="1-2|3-7|9-19">
 						In [4]: pwd
 						Out[4]: '/home/rob/Downloads'
 						In [5]: find . -name '*.pdf'
@@ -347,44 +385,37 @@ https://raacampbell.github.io/steering01/
 
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>Running scripts in iPython</h2>
+						<h2>Working in iPython</h2>
 					</div>
 					<div class="content small">
 
-						<h3 style="text-align: left;">Variable explorer</h3>
+						<h3 style="text-align: left;">The variable explorer</h3>
 						<p>
 						The variables (<code class="inline_code">t</code> and <code class="inline_code">t2</code>) created by the script are placed in the base workspace of iPython and we can see them as follows
 					</p>
-						<pre><code class="none" data-trim>
-							In [2]: %whos
+						<pre><code class="python-repl" data-trim>
+							>>> %whos
 							Variable   Type    Data/Info
 							----------------------------
 							t          int     10
 							t2         int     100
 						</code></pre>
 
-
-						<p class="fragment"><b>NOTE:</b> If you edit your script and re-run it as above then the updated version will run.</p>
-					</div>
-				</section>
-
-				<section class="full_screen_slide">
-					<div class="title">
-						<h2>Getting help</h2>
-					</div>
-					<div class="content">
-						<p>e.g.</p>
-						<pre><code class="python" data-trim>
-							import matplotlib.pyplot as plt
-   				 		help(plt.plot)
-					 	</code></pre>
+						<div class="fragment">
+							<h3 style="text-align: left;">Getting help</h3>
+							<p>e.g.</p>
+							<pre><code class="python-repl" data-trim>
+							>>> import matplotlib.pyplot as plt
+							>>> help(plt.plot)
+						 	</code></pre>
+						</div>
 					</div>
 				</section>
 
 
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>Quick Benchmarking</h2>
+						<h2>Simple Benchmarking</h2>
 					</div>
 					<div class="content">
 						<p>
@@ -396,7 +427,7 @@ https://raacampbell.github.io/steering01/
 						%run -p my_script.py
 					</code></pre>
 
-					<pre><code class="python fragment" data-trim data-line-numbers="0|1|2,3|4|5,6">
+					<pre><code class="python-repl fragment" data-trim data-line-numbers="0|1|2,3|4|5,6">
 					In [1]: %time np.random.rand(1,100);
 					CPU times: user 22 µs, sys: 2 µs, total: 24 µs
 					Wall time: 25.7 µs
@@ -422,11 +453,10 @@ https://raacampbell.github.io/steering01/
 						<p>
 							To reclaim RAM you may need to garbage collect even after deleting the variable.
 						</p>
-						<pre data-id="code-animation"><code class="python" data-trim>
-							In [1]: import gc
+						<pre data-id="code-animation"><code class="python-repl" data-trim>
+							>>> import gc
 
-							In [2]: gc.collect()
-							Out[2]: 47545
+							>>> gc.collect()
 
 						</code></pre>
 						</div>
@@ -450,10 +480,10 @@ https://raacampbell.github.io/steering01/
 							Let's make some data and try plotting it.
 						</p>
 
-						<pre><code class="python" data-trim>
-							In [1]: y = np.random.rand(100)
-							In [2]: plt.plot(y)
-							Out[2]: [<matplotlib.lines.Line2D at 0x11fe5cd90>]
+						<pre><code class="python-repl" data-trim>
+							>>> y = np.random.rand(100)
+							>>> plt.plot(y)
+							[<matplotlib.lines.Line2D at 0x11fe5cd90>]
 						</code></pre>
 
 						<p>No plot appears. Where is it?</p>
@@ -461,10 +491,10 @@ https://raacampbell.github.io/steering01/
 						<div class="fragment">
 							<p>Ah! Typing <code class="inline_code">plt.show()</code> causes it to appear but then prompt is blocked.
 							</p>
-							<pre><code class="python" data-trim>
-							In [15]: plt.plot(y)
-							Out[15]: [<matplotlib.lines.Line2D at 0x7efc349f9130>]
-							In [16]: plt.show()
+							<pre><code class="python-repl" data-trim>
+							>>> plt.plot(y)
+							[<matplotlib.lines.Line2D at 0x7efc349f9130>]
+							>>> plt.show()
 							</code></pre>
 						</div>
 
@@ -671,7 +701,7 @@ https://raacampbell.github.io/steering01/
 						<h2>Developing modules interactively with iPython</h2>
 					</div>
 					<div class="content small">
-						<p> But! If you edit <code class="inline_code">bob.py</code> so that <code class="inline_code">myVar</code> so it returns a different number, this will not be implemented if your re-run <code class="inline_code">bob.intro()</code> and even if you run <code class="inline_code">import bob</code> again, that will not help. The solution is to enable module auto-reloading. Close iPython and restart it then do the following.
+						<p> But! If you edit <code class="inline_code">bob.py</code> so that <code class="inline_code">myVar</code> so it returns a different number, this will not be implemented if your re-run <code class="inline_code">bob.intro()</code>. Running <code class="inline_code">import bob</code> again will not help. The solution is to enable module auto-reloading. Close iPython and restart it then do the following.
 						</p>
 
 						<pre><code class="python" data-trim data-line-numbers>
@@ -681,8 +711,20 @@ https://raacampbell.github.io/steering01/
 							In [4]: bob.intro()
 						</code></pre>
 						<p>Try editing the return value of <code class="inline_code">myVar</code> or make any other changes you fancy. When you run <code class="inline_code">bob.intro()</code> the changes take effect. This is great! It also works with other modules, so if you have imported multiple things that depend on each other all are reloaded each time. </p>
+					</div>
+				</section>
 
-						<p>In the case above we are importing <code class="inline_code">bob</code> because it is in the current working directory. What if we want to import modules in other directories? Of course in many (most?) cases we will be importing things that have been installed using <code class="inline_code">pip</code> (perhaps with <code class="inline_code">pip -e</code>) but this is not always appropriate. When you are slowly developing analysis pipelines you might not want to immediately create pip-installable packages. What to do in this case? Python looks in the list <code class="inline_code">sys.path</code> and imports modules it finds there. So let's say we have our <code class="inline_code">bob.py</code> on the Desktop but we have a different working directory and we want to import it. This is how we can do that:</p>
+
+				<section class="full_screen_slide">
+					<div class="title">
+						<h2>Developing modules interactively with iPython</h2>
+					</div>
+					<div class="content small">
+						<p>Auto-reloading works with all modules. So you can start making a package and install it with <code class="inline_code">pip -e .</code> then changes in it will be reflected as you save and re-run the code.
+						</p>
+
+						<p>
+						You can also put modules anywhere into the Python path if you are not ready to set up a package. Python looks in the list <code class="inline_code">sys.path</code> and imports modules it finds there. So let's say we have our <code class="inline_code">bob.py</code> on the Desktop but we have a different working directory and we want to import it. This is how we can do that:</p>
 
 
 						<pre><code class="python" data-trim data-line-numbers>
@@ -696,10 +738,7 @@ https://raacampbell.github.io/steering01/
 						</code></pre>
 
 						<p>
-						The above works because <code class="inline_code">sys.path</code> is just a list that we can add to as we wish. You can build up a list of useful paths and add them each time iPython opens using a startup file (see below).
-						<b>Note</b>: as projects mature and become more long term it makes sense to transition them to more organised packages that can be installed using <code class="inline_code">pip</code> and have systematic testing, etc.
-
-						Point out that this works with pip -e . and link back to the "correct" dev cycle.
+						You can build up a list of useful paths and add them each time iPython opens using a startup file (coming up).
 					</p>
 
 					</div>
