@@ -1,0 +1,14 @@
+jupyterlab
+tifffile
+napari[all]
+scikit-image
+numpy
+scipy
+cellfinder-napari
+brainreg-napari
+keras
+dask
+pooch
+tqdm
+itk-elastix
+bg-atlasapi
