@@ -7,7 +7,7 @@ Firstly install [miniconda](https://docs.brainglobe.info/cellfinder/using-conda)
 
 Then run the following commands in a terminal:
 ```bash
-conda env create --name image-analysis python=3.10 nb_conda_kernels
+conda create --name image-analysis python=3.10 nb_conda_kernels
 conda activate image-analysis
 pip install -r requirements.txt
 git clone https://github.com/neuroinformatics-unit/image-analysis-python
