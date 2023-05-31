@@ -31,6 +31,8 @@ https://raacampbell.github.io/steering01/
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 
+		<!--- LOAD JS -->
+		<script src="dist/reveal.js"></script>
 
 
 	</head>
@@ -63,8 +65,8 @@ https://raacampbell.github.io/steering01/
 							</p>
 							<ol>
 								<li>Formal creation of a pre-planned package that you will re-use or share. Could be test-driven and/or collaborative.</li>
-								<li>A "notebook" that mixes code with other elements such as text, equations, or figures. Best used for providing examples, documentation, teaching, or as a form of note taking. It's a poor development platform.</li>
-								<li>Exploratory interactive analysis. Trying stuff out with throwaway scripts. These might morph into (2) or (1) above.</li>
+								<li class="fragment">A "notebook" that mixes code with other elements such as text, equations, or figures. Best used for providing examples, documentation, teaching, or as a form of note taking. It's a poor development platform.</li>
+								<li class="fragment">Exploratory interactive analysis. Trying stuff out with throwaway scripts. These might morph into (2) or (1) above.</li>
 							</ol>
 					</div>
 
@@ -121,6 +123,7 @@ https://raacampbell.github.io/steering01/
 					</div>
 				</section>
 
+
 				<section class="full_screen_slide">
 					<div class="title">
 						<h2>Exploratory Development</h2>
@@ -130,7 +133,7 @@ https://raacampbell.github.io/steering01/
 					<div class="content">
 
 						<ul>
-							<li>Do not get stuck in the "throwaway scripts" workflow we will discuss!</li>
+							<li>Do not get stuck in the "throwaway scripts" workflow!</li>
 							<li>It has its uses but do not abuse it.</li>
 							<li>Transition to packages and organize when necessary.</li>
 						</li>
@@ -204,7 +207,7 @@ https://raacampbell.github.io/steering01/
 				</section>
 
 
-				<!-- iterative/interactive dev cycle: why it is harder than it should be -->
+				<!--
 				<section class="full_screen_slide">
 					<div class="title">
 						<h2>Doing everything in plain iPython</h2>
@@ -229,7 +232,7 @@ https://raacampbell.github.io/steering01/
 						</p>
 					</div>
 				</section>
-
+				-->
 
 
 
@@ -445,7 +448,8 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content">
 						<p>
-							You can delete individual variables at the iPython prompt with <code class="inline_code">del</code> but this will not give back RAM to the OS.
+							You can delete individual variables at the iPython prompt with <code class="inline_code">del</code> but this might not give back RAM to the OS.
+							This is because iPython might hold references to variables.
 							You can monitor this with the Linux command <code class="inline_code">htop</code>, for example.
 						</p>
 
@@ -455,7 +459,6 @@ https://raacampbell.github.io/steering01/
 						</p>
 						<pre data-id="code-animation"><code class="python-repl" data-trim>
 							>>> import gc
-
 							>>> gc.collect()
 
 						</code></pre>
@@ -516,7 +519,7 @@ https://raacampbell.github.io/steering01/
 						</p>
 
 						<pre><code class="python" data-trim>
-						x = np.arange(0,100,1)
+						x = np.arange(0,100)
 						y = x*2 + np.random.rand(len(x))*10
 						plt.plot(x, y, 'xk')
 						plt.grid(True)
@@ -591,6 +594,10 @@ https://raacampbell.github.io/steering01/
 						plt.plot(x,y1,'or') # Overlay red markers to existing line
 						</code></pre>
 
+						<p>
+							Close all figures with <span class="inline_code"> plt.close('all')</span>.
+						</p>
+
 
 					</div>
 				</section>
@@ -641,16 +648,22 @@ https://raacampbell.github.io/steering01/
 					</div>
 					<div class="content">
 						<p>
-							It makes sense to always assign a label to a figure whenever you make one.
 							Labels are managed as follows:
 						</p>
 
 						<pre><code class="python" data-trim>
 							# Labels in existing plots
-							In [30]: fig.get_label()
-							Out[30]: 'my_label_01'
-							In [31]: fig.set_label('newlabel')
+							fig.get_label()
+							'my_label_01'
+							fig.set_label('newlabel')
 						</code></pre>
+
+						<p>
+							f1 = plt.figure()
+							f1.get_label()
+							f1.set_label('mylabel')
+							f1.get_label()
+						</p>
 
 					</div>
 				</section>
@@ -710,7 +723,7 @@ https://raacampbell.github.io/steering01/
 							In [3]: import bob
 							In [4]: bob.intro()
 						</code></pre>
-						<p>Try editing the return value of <code class="inline_code">myVar</code> or make any other changes you fancy. When you run <code class="inline_code">bob.intro()</code> the changes take effect. This is great! It also works with other modules, so if you have imported multiple things that depend on each other all are reloaded each time. </p>
+						<p>Try editing the return value of <code class="inline_code">myVar</code> or make any other changes you fancy. When you run <code class="inline_code">bob.intro()</code> the changes take effect. This is great! All imported modules get reloaded <b>AND</b> this works with classes!</p>
 					</div>
 				</section>
 
@@ -762,11 +775,11 @@ https://raacampbell.github.io/steering01/
 						We have seen a bunch of customizations. How to apply them automatically each time iPython is started? Edit the <code class="inline_code">python_config.py</code> file.
 						</p>
 						<p>
-						To find the folder containg the file type <code class="inline_code">ipython locate profile default</code> in the system (not iPython) prompt.
+						To find the folder containing the file type <code class="inline_code">ipython locate profile default</code> in the system (not iPython) prompt.
 						On Unix-like systems it should be at  <code class="inline_code">~/.ipython/profile_default/</code> and the iPython config file should be at <code>~/.ipython/profile_default/ipython_config.py</code>
 						</p>
 						<p>
-						 If it is missing you can make it with <code class="inline_code">ipython profile create</code>
+						 If it is missing you can make it with <code class="inline_code">ipython profile create</code>.
 						</p>
 					</div>
 				</section>
@@ -853,6 +866,7 @@ https://raacampbell.github.io/steering01/
 							import sys
 							import numpy as np
 							import matplotlib.pyplot as plt
+							plt.ion()
 						</code></pre>
 					</div>
 				</section>
@@ -865,7 +879,6 @@ https://raacampbell.github.io/steering01/
 					<div class="content">
 						<p>If you don't like the newline between prompt lines you can get rid of it as follows:</p>
 					<pre><code class="python" data-trim>
-					from IPython.terminal.prompts import ClassicPrompts
 					ip = get_ipython()
 					ip.separate_in = '' # No spaces between lines
 					 </code></pre>
@@ -878,80 +891,38 @@ https://raacampbell.github.io/steering01/
 
 
 
-
-
-
-			<!-- Jupyter notebooks -->
-			<section>
-
-				<section>
-					<h1>Jupyter Notebooks</h1>
-				</section>
-
-
 				<section class="full_screen_slide">
 					<div class="title">
-						<h2>Are Jupyter notebooks the answer?</h2>
-					</div>
-					<div class="content small">
-						At first glance Jupyter notebooks seem like a good option. The allow you to see your workflow. Things can be re-run easily by pressing the run button. Results are saved.
-						The issue, however, is that for any substantial analysis you will need to write potentially large numbers of functions (or even multiple packages) and this isn't part of the Jupyter workflow. You will learn no software dev skills if you try sticking with Jupyter. Jupyter is good if you want to summarize results at a very high level at the end, use it a notebook for progress reports, etc. It does not answer the issues above.
-					</div>
-				</section>
-				<!-- Jupyter notebooks linked to iPython -->
-				<section class="full_screen_slide">
-					<div class="title">
-						<h2>But I liked Jupyter notebooks!</h2>
-					</div>
-					<div class="content small">
-						<p>You can have both!
-						Start Jupyter and do some stuff then at the bash CLI:</p>
-
-						<pre><code class="python" data-trim data-line-numbers>
-						 jupyter console --existing
-						</code></pre>
-
-						<p>
-						The <code class="inline_code">%connect_info</code> typed into Jupyter Notebook will help you connect to it if there are multiple running notebooks.
-						</p>
-					</div>
-				</section>
-
-				<section class="full_screen_slide">
-					<div class="title">
-						<h2>jupyter qtconsole</h2>
+						<h2>Linking iPython to Jupyter</h2>
 					</div>
 					<div class="content small">
 						<p>
-						You can have both! Start Jupyter and do some stuff then at the bash CLI:
+						You can link an iPython prompt to a Jupyter notebook, which can be helpful if you want to document a workflow.
+						e.g. You might want to do something interactively before deciding how to proceed.
+						That is really annoying to do by repeatedly running a cell.
 						</p>
 
-						<pre><code class="python" data-trim>
-						 pip install pyqt5-tools
+						<p>
+						You need to have installed `jupyter-console` then you can:
+						</p>
+						<pre><code data-trim data-line-numbers>
+						$ jupyter console --existing
 						</code></pre>
 
-					<p>
-						Then
-					</p>
+						<p>
+						This works if you have just one console open. With multple, run <code class="inline_code">%connect_info</code> to help you connect to the right now.
+						</p>
 
-					<pre><code class="python" data-trim>
-						 jupyter console
-					</code></pre>
-
-					<p>
-						The <code class="inline_code">%qtconsole</code> magic spawns a new terminal window with the same kernel.
-					</p>
 					</div>
 				</section>
 
-			</section>
+
+
 
 
 		</div>
 
 
-		<!--- LOAD JS -->
-		<script src="dist/reveal.js"></script>
 
 		<!-- CUSTOMIZATIONS -->
 		<script>
