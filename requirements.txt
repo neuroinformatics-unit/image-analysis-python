@@ -3,6 +3,7 @@ tifffile
 napari[all]
 scikit-image
 numpy
+matplotlib
 scipy
 cellfinder-napari
 brainreg-napari
