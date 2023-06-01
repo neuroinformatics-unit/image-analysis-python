@@ -1,0 +1,76 @@
+
+
+/*********************************************
+ * Override stuff from main theme
+ *********************************************/
+:root {
+  --r-main-font-size: 32px;
+}
+
+
+
+/*********************************************
+ * My custom elements
+ *********************************************/
+.full_screen_slide {
+    position: relative;
+    text-align: center;
+    height: 100%;
+  }
+
+
+.full_screen_slide h1 {
+    text-transform: none
+}
+
+.full_screen_slide h2 {
+    text-transform: none
+}
+
+.full_screen_slide h3 {
+    text-transform: none
+}
+
+
+.full_screen_slide .title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: none;
+  text-align: left;
+  margin-top: 0;
+}
+
+.full_screen_slide p {
+  text-align: left
+}
+
+
+/*.full_screen_slide ul {
+  font-size: 0.75em;
+}*/
+
+.full_screen_slide .content{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  border: 0px grey dashed;
+}
+
+
+.smaller{
+  font-size: 30px;
+}
+
+.small{
+  font-size: 22px;
+}
+
+blockquote {
+  text-align: left;
+}
+
+.inline_code {
+  background-color: #333333;
+}
